@@ -2735,7 +2735,56 @@ int EnvironmentNAVXYTHETALAT::GetGoalHeuristic(int stateID)
     //define this function if it is used in the planner (heuristic backward search would use it)
     return (int)(((double)__max(h2D, hEuclid)) / EnvNAVXYTHETALATCfg.nominalvel_mpersecs);
 }
+//Mod by Sameer and Karthik
+int EnvironmentNAVXYTHETALAT::GetGoalHeuristicExpt(int stateID, std::unordered_map<int, std::vector<double>>& heuristic_map, bool test_flag = false)
+{
+    //Sameer and Karthik, do the machine learning stuff here
+    std::vector <double> data;
+    double default_weight = 2.0;
+    int x_state, y_state, theta_state;
+    double x_cont,y_cont,theta_cont;
+    GetCoordFromState(stateID,x_state,y_state,theta_state);
+    PoseDiscToCont(x_state,y_state,theta_state,x_cont,y_cont,theta_cont);
+    data.push_back(x_cont);
+    data.push_back(y_cont);
+    data.push_back(theta_cont);
+    data.push_back(default_weight);
+    //Now we know the stateID, x-y-theta coordinates and the inflation weight of this point, now put it in the unordered map with the key which is the stateID
+    heuristic_map[stateID] = data;
+    //Done with the modding
 
+#if USE_HEUR==0
+    return 0;
+#endif
+
+#if DEBUG
+    if (stateID >= (int)StateID2CoordTable.size()) {
+        SBPL_ERROR("ERROR in EnvNAVXYTHETALAT... function: stateID illegal\n");
+        throw new SBPL_Exception();
+    }
+#endif
+
+    EnvNAVXYTHETALATHashEntry_t* HashEntry = StateID2CoordTable[stateID];
+    //computes distances from start state that is grid2D, so it is EndX_c EndY_c
+    int h2D = grid2Dsearchfromgoal->getlowerboundoncostfromstart_inmm(HashEntry->X, HashEntry->Y); 
+    int hEuclid = (int)(NAVXYTHETALAT_COSTMULT_MTOMM * EuclideanDistance_m(HashEntry->X, HashEntry->Y,
+                                                                           EnvNAVXYTHETALATCfg.EndX_c,
+                                                                           EnvNAVXYTHETALATCfg.EndY_c));
+    int hEuclidExpt = 2.0*hEuclid;
+    //define this function if it is used in the planner (heuristic backward search would use it)
+if(test_flag){
+    return (int)(((double)__max(hEuclid, hEuclid)) / EnvNAVXYTHETALATCfg.nominalvel_mpersecs); //Disabling Djikstra Heuristic
+}
+else{
+    return (int)(((double)__max(hEuclidExpt, hEuclid)) / EnvNAVXYTHETALATCfg.nominalvel_mpersecs); //Disabling Djikstra Heuristic
+}
+}
+
+void EnvironmentNAVXYTHETALAT::getHeuristicMap(std::unordered_map<int,std::vector<double>>& map)
+{
+    map = heuristic_map;
+}
+//Mod by sameer and karthik ends
 int EnvironmentNAVXYTHETALAT::GetStartHeuristic(int stateID)
 {
 #if USE_HEUR==0

@@ -34,6 +34,7 @@
 #include <vector>
 #include <sbpl/config.h>
 #include <sbpl/sbpl_exception.h>
+#include <unordered_map>
 
 class CMDPSTATE;
 struct MDPConfig;
@@ -88,6 +89,7 @@ public:
      * \brief heuristic estimate from state with stateID to goal state
      */
     virtual int GetGoalHeuristic(int stateID) = 0;
+    virtual int GetGoalHeuristicExpt(int stateID,std::unordered_map<int,std::vector<double>>& heuristic_map,bool test_flag) = 0;
 
     /**
      * \brief heuristic estimate from start state to state with stateID

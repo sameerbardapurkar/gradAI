@@ -34,7 +34,7 @@
 #include <vector>
 #include <sbpl/discrete_space_information/environment.h>
 #include <sbpl/utils/utils.h>
-
+#include <unordered_map>
 // Define to test against in client code. Signals that Set2DBlockSize and
 // Set2DBucketSize are available in EnvironmentNAVXYTHETALATTICE
 #define SBPL_CUSTOM_2D_OPTIONS 1
@@ -629,6 +629,9 @@ public:
     virtual void PrintVars() { }
 
     const EnvNAVXYTHETALATHashEntry_t* GetStateEntry(int state_id) const;
+    //Mod by sameer and karthik
+    void getHeuristicMap(std::unordered_map<int,std::vector<double>>& map);
+    virtual int GetGoalHeuristicExpt(int stateID, std::unordered_map<int, std::vector<double>>& heuristic_map, bool test_flag) = 0;
 
 protected:
     //hash table of size x_size*y_size. Maps from coords to stateId
@@ -653,6 +656,8 @@ protected:
     virtual void InitializeEnvironment();
 
     virtual void PrintHashTableHist(FILE* fOut);
+    //Mod by sameer and Karthik
+    std::unordered_map<int, std::vector<double>> heuristic_map;
 };
 
 #endif
