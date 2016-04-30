@@ -90,6 +90,13 @@ public:
      */
     virtual int GetGoalHeuristic(int stateID) = 0;
 
+    virtual int GetGoalHeuristicExpt(int stateID, std::unordered_map<int, std::vector<double>>& heuristic_map, bool test_flag = false)
+    {
+      SBPL_ERROR("ERROR: GetGoalHeuristicExpt is not implemented for this environment!\n");
+      throw new SBPL_Exception();
+    }
+
+
     /**
      * \brief heuristic estimate from start state to state with stateID
      */

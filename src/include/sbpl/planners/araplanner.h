@@ -233,7 +233,7 @@ public:
     /**
      * \brief constructor
      */
-    ARAPlanner(EnvironmentNAVXYTHETALAT* environment, bool bforwardsearch);
+    ARAPlanner(DiscreteSpaceInformation* environment, bool bforwardsearch);
 
     /**
      * \brief destructor

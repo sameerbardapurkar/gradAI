@@ -41,7 +41,7 @@
 
 using namespace std;
 
-ARAPlanner::ARAPlanner(EnvironmentNAVXYTHETALAT* environment, bool bSearchForward)
+ARAPlanner::ARAPlanner(DiscreteSpaceInformation* environment, bool bSearchForward)
 {
     bforwardsearch = bSearchForward;
 
