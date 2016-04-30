@@ -630,8 +630,10 @@ public:
 
     const EnvNAVXYTHETALATHashEntry_t* GetStateEntry(int state_id) const;
     //Mod by sameer and karthik
-    void getHeuristicMap(std::unordered_map<int,std::vector<double>>& map);
-    int GetGoalHeuristicExpt(int stateID, std::unordered_map<int, std::vector<double>>& heuristic_map, bool test_flag);
+    
+    virtual void getHeuristicMap(std::unordered_map<int,std::vector<double>>& map);
+    
+    virtual int GetGoalHeuristicExpt(int stateID, std::unordered_map<int, std::vector<double>>& heuristic_map, bool test_flag);
 
 protected:
     //hash table of size x_size*y_size. Maps from coords to stateId

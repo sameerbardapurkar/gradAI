@@ -161,9 +161,10 @@ int ARAPlanner::ComputeHeuristic(CMDPSTATE* MDPstate, ARASearchStateSpace_t* pSe
 #if MEM_CHECK == 1
         //int WasEn = DisableMemCheck();
 #endif
-
+        std::unordered_map <int,std::vector<double>> map;
+        environment_->getHeuristicMap(map);
         //forward search: heur = distance from state to searchgoal which is Goal ARAState
-        int retv = environment_->GetGoalHeuristicExpt(MDPstate->StateID);
+        int retv = environment_->GetGoalHeuristicExpt(MDPstate->StateID, map);
 
 #if MEM_CHECK == 1
         //if (WasEn)

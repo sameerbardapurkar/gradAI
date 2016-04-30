@@ -96,6 +96,12 @@ public:
       throw new SBPL_Exception();
     }
 
+    virtual void getHeuristicMap(std::unordered_map<int,std::vector<double>>& map)
+    {
+      SBPL_ERROR("ERROR: getHeuristicMap is not implemented for this environment!\n");
+      throw new SBPL_Exception();
+    }
+
 
     /**
      * \brief heuristic estimate from start state to state with stateID
