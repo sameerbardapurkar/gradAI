@@ -41,7 +41,7 @@
 
 using namespace std;
 
-ARAPlanner::ARAPlanner(DiscreteSpaceInformation* environment, bool bSearchForward)
+ARAPlanner::ARAPlanner(EnvironmentNAVXYTHETALAT* environment, bool bSearchForward)
 {
     bforwardsearch = bSearchForward;
 
@@ -163,7 +163,7 @@ int ARAPlanner::ComputeHeuristic(CMDPSTATE* MDPstate, ARASearchStateSpace_t* pSe
 #endif
 
         //forward search: heur = distance from state to searchgoal which is Goal ARAState
-        int retv = environment_->GetGoalHeuristic(MDPstate->StateID);
+        int retv = environment_->GetGoalHeuristicExpt(MDPstate->StateID);
 
 #if MEM_CHECK == 1
         //if (WasEn)
